@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "types": [
+            "vite/client"
+        ],
+        "target": "ESNext",
+        "module": "ESNext",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "verbatimModuleSyntax": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "jsx": "preserve",
+        "allowJs": true,
+        /* strict rules */
+        "strict": true,
+        "strictNullChecks": true,
+        /* using bundler to build output */
+        "moduleResolution": "Bundler",
+        "moduleDetection": "auto",
+        "noEmit": true,
+    }
+}

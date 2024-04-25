@@ -1,0 +1,35 @@
+{
+  "name": "music-metadata-wasm",
+  "version": "0.0.1",
+  "description": "",
+  "author": "subframe7536",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "metadata",
+    "wasm",
+    "wasm-pack",
+    "music"
+  ],
+  "license": "AGPL-3.0-only",
+  "main": "./dist/metadata.js",
+  "module": "./dist/metadata.js",
+  "types": "./dist/metadata.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/metadata.d.ts",
+      "default": "./dist/metadata.js"
+    }
+  },
+  "scripts": {
+    "dev": "node build.js && vite",
+    "build": "node build.js --release"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "vite": "^5.2.10",
+    "vite-plugin-wasm": "^3.3.0"
+  }
+}
