@@ -17,7 +17,9 @@ export async function build(mode) {
         ],
         { stdio: 'inherit' },
     )
-    await rm(`${outputDir}/.gitignore`)
+    try {
+        await rm(`${outputDir}/.gitignore`)
+    } catch { }
 }
 
 process.argv[2] === '--release' ? await build('release') : await build('dev')

@@ -1,18 +1,30 @@
-import { type MetaPicture, Metadata } from './metadata'
+import { MetaFile, type MetaPicture } from './metadata'
 
-export { MetaPicture, Metadata } from './metadata'
+export { MetaFile } from './metadata'
+export type { MetaPicture } from './metadata'
 
-type MetaKeys = Exclude<keyof Metadata, 'free' | 'save'>
+type ReadableMetaKeys = Exclude<keyof MetaFile, 'free' | 'save' | 'buffer'>
+type WritableMetaKeys = Exclude<
+    ReadableMetaKeys,
+    | 'bitRate'
+    | 'bitDepth'
+    | 'channels'
+    | 'duration'
+    | 'sampleRate'
+>
 
 export function parseMetadata(buf: Uint8Array) {
-    const metadata = new Metadata(buf)
+    const metadata = new MetaFile(buf)
 
     return {
-        get: <T extends MetaKeys>(prop: T) => metadata[prop],
-        set: <T extends MetaKeys>(prop: T, value: Metadata[T]) => {
+        get: <T extends ReadableMetaKeys>(prop: T) => metadata[prop],
+        set: <T extends WritableMetaKeys>(prop: T, value: MetaFile[T]) => {
             metadata[prop] = value
         },
-        save: () => metadata.save(),
+        flush: () => {
+            metadata.save()
+            return metadata.buffer
+        },
     }
 }
 
@@ -37,6 +49,9 @@ type Base64String = string
 export async function getPictureBase64(
     picture: MetaPicture,
 ): Promise<`data:${MimeType};base64,${Base64String}`> {
+    if (!picture.mimeType) {
+        throw new Error('mimeType is empty')
+    }
     let reader = new FileReader()
     let promise = new Promise<string>(
         resolve => reader.onload = () => resolve(reader.result as string),

@@ -5,7 +5,6 @@ export default defineConfig({
     dts: true,
     clean: true,
     format: ['esm'],
-    minify: true,
     loader: {
         '.wasm': 'copy',
     },
