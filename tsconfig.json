@@ -1,23 +1,23 @@
 {
     "compilerOptions": {
+        "target": "ESNext",
+        "jsx": "preserve",
+        "moduleDetection": "auto",
+        "module": "ESNext",
+        /* using bundler to build output */
+        "moduleResolution": "Bundler",
+        "resolveJsonModule": true,
         "types": [
             "vite/client"
         ],
-        "target": "ESNext",
-        "module": "ESNext",
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "verbatimModuleSyntax": true,
-        "skipLibCheck": true,
-        "skipDefaultLibCheck": true,
-        "jsx": "preserve",
         "allowJs": true,
         /* strict rules */
         "strict": true,
         "strictNullChecks": true,
-        /* using bundler to build output */
-        "moduleResolution": "Bundler",
-        "moduleDetection": "auto",
         "noEmit": true,
+        "esModuleInterop": true,
+        "verbatimModuleSyntax": true,
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true
     }
 }

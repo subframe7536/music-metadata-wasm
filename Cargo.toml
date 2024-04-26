@@ -1,21 +1,21 @@
 [package]
 name = "music_metadata"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2021"
-authors = ["subframe7536"]
+authors = [ "subframe7536" ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-crate-type = ["cdylib"]
+crate-type = [ "cdylib" ]
 
 [features]
-default = ["console_error_panic_hook"]
+default = [ "console_error_panic_hook" ]
 
 [dependencies]
 lofty = "0.19.0"
 wasm-bindgen = "0.2"
-serde = { version = "1.0", features = ["derive"] }
-serde-wasm-bindgen="0.6"
+serde = { version = "1.0", features = [ "derive" ] }
+serde-wasm-bindgen = "0.6"
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires

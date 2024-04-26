@@ -1,35 +1,54 @@
 {
-  "name": "music-metadata-wasm",
-  "version": "0.0.1",
-  "description": "",
-  "author": "subframe7536",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "metadata",
-    "wasm",
-    "wasm-pack",
-    "music"
-  ],
-  "license": "AGPL-3.0-only",
-  "main": "./dist/metadata.js",
-  "module": "./dist/metadata.js",
-  "types": "./dist/metadata.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/metadata.d.ts",
-      "default": "./dist/metadata.js"
+    "name": "music-metadata-wasm",
+    "type": "module",
+    "version": "0.0.1",
+    "description": "read / write the music file metadata using wasm, powered by lofty-rs",
+    "author": "subframe7536",
+    "license": "AGPL-3.0-only",
+    "keywords": [
+        "metadata",
+        "wasm",
+        "wasm-pack",
+        "music"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/metadata.d.ts",
+            "default": "./dist/metadata.js"
+        },
+        "./wasm": {
+            "types": "./dist/metadata_bg.wasm.d.ts",
+            "default": "./dist/metadata_bg.wasm"
+        }
+    },
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "typesVersions": {
+        "*": {
+            "wasm": [
+                "./dist/metadata_bg.wasm.d.ts"
+            ]
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "dev": "pnpm run dev:wasm && vite playground",
+        "dev:wasm": "node build.js",
+        "build": "node build.js --release && tsup lib/index.ts --format esm --dts",
+        "install": "pnpm run dev:wasm",
+        "format": "eslint --fix"
+    },
+    "devDependencies": {
+        "@subframe7536/eslint-config": "^0.6.1",
+        "@subframe7536/type-utils": "^0.1.6",
+        "@types/node": "^20.12.7",
+        "eslint": "^9.1.1",
+        "tsup": "^8.0.2",
+        "typescript": "^5.4.5",
+        "vite": "^5.2.10",
+        "vite-plugin-wasm": "^3.3.0"
     }
-  },
-  "scripts": {
-    "dev": "node build.js && vite",
-    "build": "node build.js --release"
-  },
-  "devDependencies": {
-    "@types/node": "^20.12.7",
-    "vite": "^5.2.10",
-    "vite-plugin-wasm": "^3.3.0"
-  }
 }

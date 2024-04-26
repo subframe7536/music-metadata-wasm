@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process'
 import { rm } from 'node:fs/promises'
 
-const outputDir = './dist'
+const outputDir = './lib/metadata'
 
 export async function build(mode) {
     spawnSync(
@@ -10,14 +10,14 @@ export async function build(mode) {
             'build',
             `--${mode}`,
             '--out-name',
-            'metadata',
+            'index',
             '--out-dir',
             outputDir,
-            '--no-pack'
+            '--no-pack',
         ],
-        { stdio: 'inherit' }
+        { stdio: 'inherit' },
     )
     await rm(`${outputDir}/.gitignore`)
 }
 
-process.argv[2] === 'release' ? await build('dev') : await build('release')
+process.argv[2] === '--release' ? await build('release') : await build('dev')
