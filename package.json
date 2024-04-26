@@ -13,32 +13,19 @@
     ],
     "exports": {
         ".": {
-            "types": "./dist/metadata.d.ts",
-            "default": "./dist/metadata.js"
-        },
-        "./wasm": {
-            "types": "./dist/metadata_bg.wasm.d.ts",
-            "default": "./dist/metadata_bg.wasm"
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
         }
     },
     "main": "./dist/index.js",
-    "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
-    "typesVersions": {
-        "*": {
-            "wasm": [
-                "./dist/metadata_bg.wasm.d.ts"
-            ]
-        }
-    },
     "files": [
         "dist"
     ],
     "scripts": {
         "dev": "pnpm run dev:wasm && vite playground",
         "dev:wasm": "node build.js",
-        "build": "node build.js --release && tsup lib/index.ts --format esm --dts",
-        "install": "pnpm run dev:wasm",
+        "build": "node build.js --release",
         "format": "eslint --fix"
     },
     "devDependencies": {
