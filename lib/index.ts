@@ -1,9 +1,8 @@
-import { MetaFile, type MetaPicture } from './metadata'
+import { MetaFile, type Picture } from './metadata'
 
-export { MetaFile } from './metadata'
-export type { MetaPicture } from './metadata'
+export { MetaFile, Picture } from './metadata'
 
-type AudioPropertyKeys = 'bitRate' | 'bitDepth' | 'channels' | 'duration' | 'sampleRate'
+type AudioPropertyKeys = 'bitRate' | 'bitDepth' | 'channels' | 'duration' | 'sampleRate' | 'quality'
 type AudioTagKeys = Exclude<keyof MetaFile, AudioPropertyKeys | 'buffer' | 'save' | 'free' | 'dispose'>
 
 export function parseMetadata(buf: Uint8Array) {
@@ -12,7 +11,7 @@ export function parseMetadata(buf: Uint8Array) {
     return {
         tag: <T extends AudioTagKeys>(key: T) => metadata[key],
         property: <T extends AudioPropertyKeys>(key: T) => metadata[key],
-        set: <T extends AudioTagKeys>(key: T, value: MetaFile[T]) => {
+        updateTag: <T extends AudioTagKeys>(key: T, value: MetaFile[T]) => {
             metadata[key] = value
         },
         flush: () => {
@@ -24,26 +23,21 @@ export function parseMetadata(buf: Uint8Array) {
 }
 
 /**
- * convert {@link IParsedPicture} to URL with cleanup function
+ * convert {@link Picture} to URL with cleanup function
  * @param picture parsed picture
  */
-export function getPictureURL(picture: MetaPicture): [url: string, clean: VoidFunction] {
+export function getPictureURL(picture: Picture): [url: string, clean: VoidFunction] {
     const url = URL.createObjectURL(
         new Blob([picture.data.buffer], { type: picture.mimeType }),
     )
     return [url, () => URL.revokeObjectURL(url)]
 }
 
-type MimeType = string
-type Base64String = string
-
 /**
- * convert {@link IParsedPicture} to Base64
+ * convert {@link Picture} to Base64
  * @param picture parsed picture
  */
-export async function getPictureBase64(
-    picture: MetaPicture,
-): Promise<`data:${MimeType};base64,${Base64String}`> {
+export async function getPictureBase64(picture: Picture): Promise<string> {
     if (!picture.mimeType) {
         throw new Error('mimeType is empty')
     }

@@ -2,19 +2,27 @@ use std::io::Cursor;
 
 use lofty::{
     config::WriteOptions,
-    file::{AudioFile, TaggedFile, TaggedFileExt},
+    file::{AudioFile, FileType, TaggedFile, TaggedFileExt},
     probe::Probe,
     tag::{Accessor, ItemKey, Tag, TagExt},
 };
 use wasm_bindgen::{prelude::wasm_bindgen, JsError};
 
-use crate::picture::{from_lofty_picture_vec, to_lofty_picture, MetaPicture};
+use crate::picture::{from_lofty_picture_vec, to_lofty_picture, Picture};
 
 #[wasm_bindgen]
 pub struct MetaFile {
     buffer: Vec<u8>,
     tag: Tag,
     props: <TaggedFile as AudioFile>::Properties,
+    file_type: FileType,
+}
+
+#[wasm_bindgen]
+pub enum Quality {
+    HQ,
+    SQ,
+    HiRes,
 }
 
 #[wasm_bindgen]
@@ -36,6 +44,7 @@ impl MetaFile {
             Some(tag) => Ok(MetaFile {
                 buffer,
                 tag,
+                file_type: tagged_file.file_type(),
                 props: tagged_file.properties().clone(),
             }),
             None => Err(JsError::new("no tag found")),
@@ -229,12 +238,12 @@ impl MetaFile {
 
     /// The pictures of the song
     #[wasm_bindgen(getter = pictures)]
-    pub fn get_pictures(&self) -> Option<Vec<MetaPicture>> {
+    pub fn get_pictures(&self) -> Option<Vec<Picture>> {
         from_lofty_picture_vec(&Some(self.tag.pictures().to_vec()))
     }
 
     #[wasm_bindgen(setter = pictures)]
-    pub fn set_pictures(&mut self, pictures: Vec<MetaPicture>) {
+    pub fn set_pictures(&mut self, pictures: Vec<Picture>) {
         let mut i = 0;
         for picture in pictures.iter() {
             if let Some(pic) = to_lofty_picture(picture) {
@@ -280,5 +289,27 @@ impl MetaFile {
     #[wasm_bindgen(getter = duration)]
     pub fn get_duration(&self) -> u32 {
         self.props.duration().as_millis() as u32
+    }
+
+    #[wasm_bindgen(getter = quality)]
+    pub fn get_quality(&self) -> Quality {
+        let is_lossless = match self.file_type {
+            FileType::Aac => false,
+            FileType::Custom(_) => false,
+            FileType::Mp4 => false,
+            FileType::Mpeg => false,
+            FileType::Opus => false,
+            FileType::Speex => false,
+            FileType::Vorbis => false,
+            _ => true,
+        };
+
+        if !is_lossless {
+            Quality::HQ
+        } else if self.get_sample_rate() >= Some(44100) && self.get_bit_depth() >= Some(16) {
+            Quality::HiRes
+        } else {
+            Quality::SQ
+        }
     }
 }

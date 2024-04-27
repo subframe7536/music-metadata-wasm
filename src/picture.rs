@@ -4,7 +4,7 @@ use wasm_bindgen::prelude::wasm_bindgen;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[wasm_bindgen(getter_with_clone)]
-pub struct MetaPicture {
+pub struct Picture {
     /// The picture type according to ID3v2 APIC
     #[wasm_bindgen(js_name = "picType")]
     pub pic_type: String,
@@ -48,10 +48,10 @@ pub fn string_to_mimetype_enum(mime_type: Option<&str>) -> Option<MimeType> {
 
 pub fn from_lofty_picture_vec(
     pictures: &Option<Vec<lofty::picture::Picture>>,
-) -> Option<Vec<MetaPicture>> {
+) -> Option<Vec<Picture>> {
     pictures.as_ref().map(|pics| {
         pics.iter()
-            .map(|p| MetaPicture {
+            .map(|p| Picture {
                 pic_type: p.pic_type().as_ape_key().unwrap_or("").to_string(),
                 mime_type: mimetype_enum_to_string(p.mime_type()),
                 description: p.description().map(|s| s.to_string()),
@@ -61,7 +61,7 @@ pub fn from_lofty_picture_vec(
     })
 }
 
-pub fn to_lofty_picture(pic: &MetaPicture) -> Option<lofty::picture::Picture> {
+pub fn to_lofty_picture(pic: &Picture) -> Option<lofty::picture::Picture> {
     if pic.data.is_empty() {
         return None;
     }
