@@ -1,10 +1,12 @@
 import { spawnSync } from 'node:child_process'
 import { rm } from 'node:fs/promises'
-import { build } from 'tsup'
 
-const outputDir = './lib/metadata'
+const outputDir = './dist'
 
 export async function run(releaseMode) {
+    try {
+        await rm(outputDir, { recursive: true })
+    } catch { }
     spawnSync(
         'wasm-pack',
         [
@@ -21,18 +23,6 @@ export async function run(releaseMode) {
     try {
         await rm(`${outputDir}/.gitignore`)
     } catch { }
-
-    if (releaseMode) {
-        await build({
-            entry: ['./lib/index.ts'],
-            dts: true,
-            clean: true,
-            format: ['esm'],
-            loader: {
-                '.wasm': 'file',
-            },
-        })
-    }
 }
 
 run(process.argv[2] === '--release')
