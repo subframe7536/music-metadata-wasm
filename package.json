@@ -4,6 +4,10 @@
     "version": "0.0.1",
     "description": "read / write the music file metadata using wasm, powered by lofty-rs",
     "author": "subframe7536",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/subframe7536/music-metadata-wasm.git"
+    },
     "license": "AGPL-3.0-only",
     "keywords": [
         "metadata",
