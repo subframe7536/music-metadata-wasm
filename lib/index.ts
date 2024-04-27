@@ -3,28 +3,23 @@ import { MetaFile, type MetaPicture } from './metadata'
 export { MetaFile } from './metadata'
 export type { MetaPicture } from './metadata'
 
-type ReadableMetaKeys = Exclude<keyof MetaFile, 'free' | 'save' | 'buffer'>
-type WritableMetaKeys = Exclude<
-    ReadableMetaKeys,
-    | 'bitRate'
-    | 'bitDepth'
-    | 'channels'
-    | 'duration'
-    | 'sampleRate'
->
+type AudioPropertyKeys = 'bitRate' | 'bitDepth' | 'channels' | 'duration' | 'sampleRate'
+type AudioTagKeys = Exclude<keyof MetaFile, AudioPropertyKeys | 'buffer' | 'save' | 'free' | 'dispose'>
 
 export function parseMetadata(buf: Uint8Array) {
     const metadata = new MetaFile(buf)
 
     return {
-        get: <T extends ReadableMetaKeys>(prop: T) => metadata[prop],
-        set: <T extends WritableMetaKeys>(prop: T, value: MetaFile[T]) => {
-            metadata[prop] = value
+        tag: <T extends AudioTagKeys>(key: T) => metadata[key],
+        property: <T extends AudioPropertyKeys>(key: T) => metadata[key],
+        set: <T extends AudioTagKeys>(key: T, value: MetaFile[T]) => {
+            metadata[key] = value
         },
         flush: () => {
             metadata.save()
             return metadata.buffer
         },
+        dispose: () => metadata.dispose(),
     }
 }
 

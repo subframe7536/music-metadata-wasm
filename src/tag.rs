@@ -6,12 +6,9 @@ use lofty::{
     probe::Probe,
     tag::{Accessor, ItemKey, Tag, TagExt},
 };
-use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::{prelude::wasm_bindgen, JsError};
 
-use crate::{
-    picture::{from_lofty_picture_vec, to_lofty_picture, MetaPicture},
-    utils::set_panic_hook,
-};
+use crate::picture::{from_lofty_picture_vec, to_lofty_picture, MetaPicture};
 
 #[wasm_bindgen]
 pub struct MetaFile {
@@ -23,32 +20,45 @@ pub struct MetaFile {
 #[wasm_bindgen]
 impl MetaFile {
     #[wasm_bindgen(constructor)]
-    pub fn new(buf: Vec<u8>) -> Self {
-        set_panic_hook();
-        let tagged_file = Probe::new(Cursor::new(buf.clone()))
+    pub fn new(buffer: Vec<u8>) -> Result<MetaFile, JsError> {
+        let tagged_file = Probe::new(Cursor::new(&buffer[..]))
             .guess_file_type()
-            .expect("fail to guess file type")
+            .map_err(|err| JsError::new(&err.to_string()))?
             .read()
-            .expect("fail to read file");
+            .map_err(|err| JsError::new(&err.to_string()))?;
 
-        MetaFile {
-            buffer: buf,
-            tag: tagged_file.primary_tag().cloned().unwrap_or_else(|| {
-                tagged_file
-                    .first_tag()
-                    .cloned()
-                    .expect("ERROR: No tags found!")
+        let optional_tag = tagged_file
+            .primary_tag()
+            .cloned()
+            .or(tagged_file.first_tag().cloned());
+
+        match optional_tag {
+            Some(tag) => Ok(MetaFile {
+                buffer,
+                tag,
+                props: tagged_file.properties().clone(),
             }),
-            props: tagged_file.properties().clone(),
+            None => Err(JsError::new("no tag found")),
         }
     }
 
     #[wasm_bindgen]
-    pub fn save(&mut self) {
-        set_panic_hook();
-        let mut buf = Cursor::new(self.buffer.clone());
-        let _ = self.tag.save_to(&mut buf, WriteOptions::default());
-        self.buffer = buf.into_inner();
+    pub fn save(&mut self) -> Result<(), JsError> {
+        let mut buf = Cursor::new(&mut self.buffer);
+        self.tag
+            .save_to(&mut buf, WriteOptions::default())
+            .map_err(|err| JsError::new(&err.to_string()))
+    }
+
+    /// clean up memory
+    // #[wasm_bindgen]
+    // pub fn dispose(&mut self) {
+    //     self.buffer.clear();
+    //     self.tag.clear();
+    // }
+    #[wasm_bindgen]
+    pub fn dispose(self) {
+        drop(self);
     }
 
     /// File buffer
