@@ -1,8 +1,6 @@
 use lofty::picture::{MimeType, PictureType};
-use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::wasm_bindgen;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
 #[wasm_bindgen(getter_with_clone)]
 pub struct Picture {
     /// The picture type according to ID3v2 APIC
