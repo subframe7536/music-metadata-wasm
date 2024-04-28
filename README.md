@@ -40,4 +40,4 @@ console.timeEnd('total')
 
 ## License
 
-AGPL-3.0-only
+MIT
