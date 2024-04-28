@@ -40,7 +40,8 @@ pub fn string_to_mimetype_enum(mime_type: Option<&str>) -> Option<MimeType> {
         Some("image/bmp") => Some(MimeType::Bmp),
         Some("image/tiff") => Some(MimeType::Tiff),
         Some("image/gif") => Some(MimeType::Gif),
-        _ => None,
+        Some(mime_type) => Some(MimeType::Unknown(mime_type.to_string())),
+        None => None,
     }
 }
 

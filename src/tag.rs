@@ -59,12 +59,6 @@ impl MetaFile {
             .map_err(|err| JsError::new(&err.to_string()))
     }
 
-    /// clean up memory
-    // #[wasm_bindgen]
-    // pub fn dispose(&mut self) {
-    //     self.buffer.clear();
-    //     self.tag.clear();
-    // }
     #[wasm_bindgen]
     pub fn dispose(self) {
         drop(self);
@@ -291,6 +285,7 @@ impl MetaFile {
         self.props.duration().as_millis() as u32
     }
 
+    /// music file quality
     #[wasm_bindgen(getter = quality)]
     pub fn get_quality(&self) -> Quality {
         let is_lossless = match self.file_type {
