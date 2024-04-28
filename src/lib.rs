@@ -1,7 +1,6 @@
 
 mod picture;
 mod tag;
-mod utils;
 
 #[test]
 fn test_image_mime() {
