@@ -114,10 +114,13 @@ impl MetaFile {
         self.tag.set_genre(genre);
     }
 
-    /// The rate of the song
+    /// The rate of the song,
+    /// **Unavailable yet**
     #[wasm_bindgen(getter = rate)]
     pub fn get_rate(&self) -> Option<String> {
-        self.tag.get_string(&ItemKey::Popularimeter).map(|s| s.to_string())
+        self.tag
+            .get_string(&ItemKey::Popularimeter)
+            .map(|s| s.to_string())
     }
 
     #[wasm_bindgen(setter = rate)]
@@ -222,7 +225,9 @@ impl MetaFile {
     /// The copyright of the song
     #[wasm_bindgen(getter = copyright)]
     pub fn get_copyright(&self) -> Option<String> {
-        self.tag.get_string(&ItemKey::CopyrightMessage).map(|s| s.to_string())
+        self.tag
+            .get_string(&ItemKey::CopyrightMessage)
+            .map(|s| s.to_string())
     }
 
     #[wasm_bindgen(setter = copyright)]
@@ -233,7 +238,9 @@ impl MetaFile {
     /// The track replay gain of the song
     #[wasm_bindgen(getter = trackReplayGain)]
     pub fn get_track_replay_gain(&self) -> Option<String> {
-        self.tag.get_string(&ItemKey::ReplayGainTrackGain).map(|s| s.to_string())
+        self.tag
+            .get_string(&ItemKey::ReplayGainTrackGain)
+            .map(|s| s.to_string())
     }
 
     #[wasm_bindgen(setter = trackReplayGain)]
@@ -244,7 +251,9 @@ impl MetaFile {
     /// The album replay gain of the song
     #[wasm_bindgen(getter = albumReplayGain)]
     pub fn get_album_replay_gain(&self) -> Option<String> {
-        self.tag.get_string(&ItemKey::ReplayGainAlbumGain).map(|s| s.to_string())
+        self.tag
+            .get_string(&ItemKey::ReplayGainAlbumGain)
+            .map(|s| s.to_string())
     }
 
     #[wasm_bindgen(setter = albumReplayGain)]
