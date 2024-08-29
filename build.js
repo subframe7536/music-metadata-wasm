@@ -17,6 +17,9 @@ export async function run(releaseMode) {
             '--out-dir',
             outputDir,
             '--no-pack',
+            // '--target',
+            // 'nodejs',
+            // 'web',
         ],
         { stdio: 'inherit' },
     )

@@ -4,9 +4,6 @@ mod tag;
 
 #[cfg(test)]
 mod test {
-    use wasm_bindgen_test::wasm_bindgen_test;
-
-    #[wasm_bindgen_test]
     #[test]
     fn test_image_mime() {
         use crate::tag::MetaFile;
@@ -17,6 +14,7 @@ mod test {
         let mut data = MetaFile::new(buf).ok().unwrap();
         data.set_album("test".to_string());
         // data.set_rate("2".to_string());
+        // assert_eq!(data.get_rate().expect("no rate"), "image/png".to_string());
         assert_eq!(data.get_pictures().expect("no pictures")[0].mime_type, Some("image/png".to_string()));
         let _ = data.save();
 

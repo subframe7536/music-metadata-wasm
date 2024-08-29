@@ -38,6 +38,10 @@ document.querySelector('div')!.innerHTML = data.pictures?.[0].mimeType || 'no co
 console.timeEnd('total')
 ```
 
+## Todo
+
+- [ ] Napi 3
+
 ## License
 
 MIT

@@ -114,19 +114,38 @@ impl MetaFile {
         self.tag.set_genre(genre);
     }
 
-    /// The rate of the song,
-    /// **Unavailable yet**
-    #[wasm_bindgen(getter = rate)]
-    pub fn get_rate(&self) -> Option<String> {
-        self.tag
-            .get_string(&ItemKey::Popularimeter)
-            .map(|s| s.to_string())
-    }
+    // /// The rate of the song,
+    // /// **Unavailable yet**
+    // #[wasm_bindgen(getter = rate)]
+    // pub fn get_rate(&self) -> Option<String> {
+    //     self.tag
+    //         .get_string(&ItemKey::Popularimeter)
+    //         .map(|s| s.to_string())
+    // }
 
-    #[wasm_bindgen(setter = rate)]
-    pub fn set_rate(&mut self, rate: String) {
-        self.tag.insert_text(ItemKey::Popularimeter, rate);
-    }
+    // #[wasm_bindgen(setter = rate)]
+    // pub fn set_rate(&mut self, rate: u8) {
+    //     // match &self.tag.tag_type() {
+    //     //     &TagType::Id3v2 => {
+    //     //         let mut id3v2: Id3v2Tag = self.tag.into();
+    //     //         id3v2.insert(Frame::Popularimeter(PopularimeterFrame::new(
+    //     //             String::new(),
+    //     //             rate,
+    //     //             0,
+    //     //         )));
+    //     //     }
+    //     //     &TagType::VorbisComments => {
+    //     //         // todo))
+    //     //     }
+    //     //     &TagType::Mp4Ilst => {
+    //     //         // todo))
+    //     //     }
+    //     //     &TagType::RiffInfo => {
+    //     //         // todo))
+    //     //     }
+    //     //     _ => {}
+    //     // }
+    // }
 
     /// The year the song was released
     #[wasm_bindgen(getter = year)]
