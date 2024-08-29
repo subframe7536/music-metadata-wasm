@@ -32,6 +32,7 @@
         "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
+        "test": "cargo test -- --nocapture",
         "dev": "node build.js && vite playground",
         "dev:wasm": "node build.js",
         "build": "node build.js --release",
@@ -39,10 +40,10 @@
         "release": "node build.js --release && bumpp --all && npm publish"
     },
     "devDependencies": {
-        "@types/node": "^20.12.7",
-        "bumpp": "^9.4.0",
-        "typescript": "^5.4.5",
-        "vite": "^5.2.10",
+        "@types/node": "^20.16.2",
+        "bumpp": "^9.5.2",
+        "typescript": "^5.5.4",
+        "vite": "^5.4.2",
         "vite-plugin-wasm": "^3.3.0"
     }
 }
