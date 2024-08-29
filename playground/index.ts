@@ -1,7 +1,7 @@
-import { MetaFile } from '../dist/bundler'
-import url from '../samples/flac.flac?url'
+import { MetaFile } from '../dist'
+// import url from '../samples/flac.flac?url'
 // import url from '../samples/wav.wav?url'
-// import url from '../samples/mp3.mp3?url'
+import url from '../samples/mp3.mp3?url'
 // impot url from '../samples/rate.mp3?url'
 
 console.time('total')
@@ -43,6 +43,16 @@ console.table({
     track: data.track,
     discTotal: data.discTotal,
     trackTotal: data.trackTotal,
+    copyright: data.copyright,
+    duration: data.duration,
+    pictures: data.pictures[0].mimeType,
+    bitrate: data.bitRate,
+    bitDepth: data.bitDepth,
+    sampleRate: data.sampleRate,
+    channels: data.channels,
+    quality: data.quality,
+    albumReplayGain: data.albumReplayGain,
+    trackReplayGain: data.trackReplayGain,
 })
 document.querySelector('div')!.innerHTML = data.pictures?.[0].mimeType || 'no cover'
 
