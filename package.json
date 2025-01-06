@@ -1,7 +1,7 @@
 {
     "name": "music-metadata-wasm",
     "type": "module",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "read / write the music file metadata using wasm, powered by lofty-rs",
     "author": "subframe7536",
     "repository": {
