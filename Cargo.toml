@@ -9,7 +9,7 @@ authors = [ "subframe7536" ]
 crate-type = [ "cdylib" ]
 
 [dependencies]
-lofty = "0.21.1"
+lofty = "0.22"
 wasm-bindgen = "0.2"
 
 [dev-dependencies]
