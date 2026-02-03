@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Use [music-tag-native](https://github.com/subframe7536/music-tag-native) instead
+
 # music-metadata-wasm
 
 read / write the music file metadata using wasm, powered by [`lofty-rs`](https://github.com/Serial-ATA/lofty-rs)
